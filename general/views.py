@@ -3,4 +3,9 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 
-# Create your views here.
+from general.models import *
+
+
+def players(request):
+	players = Player.objects.all()
+	return render(request, 'players.html', locals())

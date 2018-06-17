@@ -23,5 +23,6 @@ admin.site.site_header = "Fantasy Soccer"
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^players', players, name="players"),
     url(r'^import_player', import_player, name="import_player"),
 ]
