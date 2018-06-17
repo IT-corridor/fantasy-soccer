@@ -13,23 +13,15 @@ def import_player(request):
         reader = csv.DictReader(csvfile)
         for row in reader:
             try:
-                obj = Demographic.objects.create(
-                    mrn=row['MRN'],
-                    first_name = row['FirstName'],
-                    last_name=row['LastName'],
-                    dob=datetime.strptime(row['DOB'], '%m/%d/%Y'),
-                    gender=row['Sex'],
-                    email=row['Email'],
-                    address1=row['Address1'],
-                    address2=row['Address2'],
-                    city=row['City'],
-                    state=row['State'],
-                    zip=row['Zip'],
-                    phone=row['Phone'],
-                    cell_phone=row['cell Phone'],
-                    ssn=row['SocialSecurity'],
+                obj = Player.objects.create(
+                    name = row['player_name'],
+                    salary=row['player_salary'],
+                    position=row['player_pos'],
+                    points=row['player_points'],
+                    value=row['player_value'],
+                    team=row['player_team'],
                 )
             except (Exception) as e:
                 print (e)
 
-    return HttpResponse('Successfully imported ({})!'.format(Demographic.objects.all().count()))
+    return HttpResponse('Successfully imported ({})!'.format(Player.objects.all().count()))
