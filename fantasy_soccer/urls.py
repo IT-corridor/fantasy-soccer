@@ -16,6 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from general.views import *
+from general.imports import *
+
+admin.site.site_header = "Fantasy Soccer"
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^import_player', import_player, name="import_player"),
 ]
