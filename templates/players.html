@@ -43,7 +43,7 @@
         <span class="pt-5" style="font-size: 17px;">Number of Lineups:</span>
         <input type="number" class="form-control m-3" style="width: 100px;" name="num-lineups" value="150" min="1"><br>
       </div>
-      <div class="col-md-4 pl-0 pr-4" id="div-result">
+      <div class="col-md-4 pl-0 pr-4" id="div-result">        
       </div>
   </form>
 {% endblock %}
@@ -56,6 +56,7 @@
     });
 
     $('#btn-calc').click(function() {
+      $('#div-result').html('<span class="font-weight-bold">Calculating ...</span>');
       $.post( "/gen-lineups", $('#frm-player').serialize(), function( data ) {
         $( "#div-result" ).html( data );
       });
