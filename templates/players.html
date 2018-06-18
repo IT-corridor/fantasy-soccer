@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load extra %}
 
 {% block content %}
   <form class="form-inline" id="frm-player">
     {% csrf_token %}
     <div class="clearfix"></div>
       <div class="col-md-6 pr-0 pl-4">
-        <h3 class="mb-4 mt-4">Players List</h3>
+        <h3 class="mb-4 mt-4">Players List ( {{ players.count }} )</h3>
         <div style="overflow-y: scroll; max-height: calc(98vh - 150px);">
         <table class="table table-striped table-hover table-responsive-md">
           <thead>

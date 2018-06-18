@@ -19,7 +19,7 @@ def gen_lineups(request):
     ids = [int(ii) for ii in ids]
     players = Player.objects.filter(id__in=ids)
     lineups = calc_lineups(players, num_lineups)
-    total_num_lineups = 339
-    avg_points = lineups[0].projected()
+    total_num_lineups = get_total_num_lineups(players)
+    avg_points = lineups[0].projected() if lineups else 0
 
     return HttpResponse(render_to_string('player-lineup.html', locals()))

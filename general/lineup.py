@@ -1,3 +1,4 @@
+import operator as op
 from ortools.linear_solver import pywraplp
 
 from general.models import *
@@ -19,7 +20,7 @@ class Roster:
 
     def is_member(self, player):
         return player in self.players
-        
+
     def spent(self):
         return sum(map(lambda x: x.salary, self.players))
 
@@ -91,11 +92,7 @@ def get_lineup(players, SALARY_CAP, MAX_POINT):
             if variables[i].solution_value() == 1:
                 roster.add_player(player)
 
-        print "Optimal roster for: $%s\n" % SALARY_CAP
-        print roster
         return roster
-    else:
-        print "No solution :("
 
 
 def calc_lineups(players, num_lineups):
@@ -104,6 +101,31 @@ def calc_lineups(players, num_lineups):
     MAX_POINT = 10000
     for i in range(num_lineups):
         roster = get_lineup(players, SALARY_CAP, MAX_POINT)
+        if not roster:
+            break
         result.append(roster)
         MAX_POINT = roster.projected() - 0.001
     return result
+
+def ncr(n, r):
+    r = min(r, n-r)
+    numer = reduce(op.mul, xrange(n, n-r, -1), 1)
+    denom = reduce(op.mul, xrange(1, r+1), 1)
+    return numer//denom
+
+def get_total_num_lineups(players):
+    num_F = 0
+    num_M = 0
+    num_D = 0
+    num_GK = 0
+    for ii in players:
+        if ii.position == 'F':
+            num_F = num_F + 1
+        elif ii.position == 'M':
+            num_M = num_M + 1
+        elif ii.position == 'D':
+            num_D = num_D + 1
+        elif ii.position == 'GK':
+            num_GK = num_GK + 1
+
+    return ncr(num_F, 2) * ncr(num_M, 3) * ncr(num_D, 2) * ncr(num_GK, 1)
