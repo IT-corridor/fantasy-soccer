@@ -33,6 +33,11 @@ class Roster:
     def sorted_players(self):
         return sorted(self.players, key=self.position_order)
 
+    def get_csv(self):
+        s = ','.join(str(x) for x in self.sorted_players())
+        s += ",{},{}\n".format(self.projected(), self.spent())
+        return s
+
     def __repr__(self):
         s = '\n'.join(str(x) for x in self.sorted_players())
         s += "\n\nProjected Score: %s" % self.projected()
