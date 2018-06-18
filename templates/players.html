@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form class="form-inline" action="/gen-lineups" method="POST">
+  <form class="form-inline" id="frm-player">
     {% csrf_token %}
     <div class="clearfix"></div>
       <div class="col-md-6 pr-0 pl-4">
@@ -37,38 +37,33 @@
       </div>
 
       <div class="col-md-2 pt-5 text-center">
-        <button class="btn btn-success mb-3" style="width: 100px;">Export</button><br>
-        <button class="btn btn-success mb-3" style="width: 100px;">Calculate</button><br>
-        <button class="btn btn-success mb-5" style="width: 100px;">Clear</button><br>
+        <a class="btn btn-success mb-3" style="width: 100px;" id="btn-export">Export</a><br>
+        <a class="btn btn-success mb-3" style="width: 100px;" id="btn-calc">Calculate</a><br>
+        <a class="btn btn-success mb-5" style="width: 100px;" id="btn-clear">Clear</a><br>
         <span class="pt-5" style="font-size: 17px;">Number of Lineups:</span>
         <input type="number" class="form-control m-3" style="width: 100px;" id="email" value="150"><br>
       </div>
-      <div class="col-md-4 pl-0 pr-4">
-        <div class="mt-5 jumbotron p-4">
-          <span>Total Number of Lineup possibilities: </span><span class="font-weight-bold"> 392</span>
-          <br>
-          <span>Lineup Projection Average: </span><span class="font-weight-bold"> 140.2</span>
-        </div>
-        <div style="overflow-y: scroll; height: calc(98vh - 245px)">
-          <table class="table table-striped table-hover table-responsive-md">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Team</th>
-                <th>Lineups</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for ii in players %}
-                <tr>
-                  <td>{{ ii.name }}</td>
-                  <td>{{ ii.team }}</td>
-                  <td>{{ ii.value }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>  
-          </table>
-        </div>
+      <div class="col-md-4 pl-0 pr-4" id="div-result">
       </div>
   </form>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+  $(function() {
+    $('#btn-export').click(function() {
+      alert('export');
+    });
+
+    $('#btn-calc').click(function() {
+      $.post( "/gen-lineups", $('#frm-player').serialize(), function( data ) {
+        $( "#div-result" ).html( data );
+      });
+    });
+
+    $('#btn-clear').click(function() {
+      $('#div-result').html('');
+    });
+  })
+</script>  
 {% endblock %}
