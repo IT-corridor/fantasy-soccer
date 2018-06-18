@@ -17,6 +17,9 @@ class Roster:
     def add_player(self, player):
         self.players.append(player)
 
+    def is_member(self, player):
+        return player in self.players
+        
     def spent(self):
         return sum(map(lambda x: x.salary, self.players))
 

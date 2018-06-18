@@ -1,3 +1,4 @@
+{% load extra %}
 <div class="mt-5 jumbotron p-4">
   <span>Total Number of Lineup possibilities: </span><span class="font-weight-bold"> {{ total_num_lineups }}</span>
   <br>
@@ -17,7 +18,7 @@
         <tr>
           <td>{{ ii.name }}</td>
           <td>{{ ii.team }}</td>
-          <td>{{ ii.value }}</td>
+          <td>{{ ii|num_lineups:lineups }}</td>
         </tr>
       {% endfor %}
     </tbody>  
