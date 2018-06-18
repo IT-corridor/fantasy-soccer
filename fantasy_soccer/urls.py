@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^players', players, name="players"),
     url(r'^import_player', import_player, name="import_player"),
+    url(r'^gen-lineups', gen_lineups, name="gen_lineups"),    
 ]

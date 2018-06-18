@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h3 class="mb-4">Players List</h3>
+  <h3 class="mb-4">Lineups List</h3>
   <form class="form-inline" action="/gen-lineups" method="POST">
     {% csrf_token %}
     <div class="col-12 p-0" style="max-height: 600px; overflow-y: scroll;">
@@ -20,7 +20,7 @@
         <tbody>
           {% for ii in players %}
             <tr>
-              <td><input type="checkbox" name="ids" checked="" value="{{ ii.id }}"></td>
+              <td><input type="checkbox" name="ids" checked=""></td>
               <td>{{ ii.name }}</td>
               <td>{{ ii.position }}</td>
               <td>{{ ii.salary }}</td>
