@@ -134,3 +134,48 @@ def get_total_num_lineups(players):
             num_GK = num_GK + 1
 
     return ncr(num_F, 2) * ncr(num_M, 3) * ncr(num_D, 2) * ncr(num_GK, 1)
+
+
+def get_total_num_lineups_(players):
+    dict_player = {
+        'F': [],
+        'M': [],
+        'D': [],
+        'GK': []
+    }
+
+    for ii in players:
+        dict_player[ii.position].append(ii.salary)
+
+    num_F = len(dict_player['F'])
+    num_M = len(dict_player['M'])
+    num_D = len(dict_player['D'])
+    num_GK = len(dict_player['GK'])
+    num_result = 0
+
+    # print dict_player
+    # return 99000
+    for fi in range(num_F):
+        for fii in range(fi+1, num_F):
+            for mi in range(num_M):
+                for mii in range(mi+1, num_M):
+                    for miii in range(mii+1, num_M):
+                        for di in range(num_D):
+                            if dict_player['F'][fi] + dict_player['F'][fii] + dict_player['M'][mi] + dict_player['M'][mii] + dict_player['M'][miii] + dict_player['D'][di] > 60000:
+                                continue
+                            for dii in range(di+1, num_D):
+                                if dict_player['F'][fi] + dict_player['F'][fii] + dict_player['M'][mi] + dict_player['M'][mii] + dict_player['M'][miii] + dict_player['D'][di] + dict_player['D'][dii] > 60000:
+                                    continue
+                    #             for gki in range(num_GK):
+                                salary = dict_player['F'][fi] \
+                                       + dict_player['F'][fii] \
+                                       + dict_player['M'][mi] \
+                                       + dict_player['M'][mii] \
+                                       + dict_player['M'][miii] \
+                                       + dict_player['D'][di] \
+                                       + dict_player['D'][dii] 
+                                       # + dict_player['GK'][gki]
+
+                                if 56000 <= salary <= 60000:
+                                    num_result += 1
+    return num_result
