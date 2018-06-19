@@ -15,7 +15,8 @@ from general.models import *
 from general.lineup import *
 
 def players(request):
-    players = Player.objects.all().exclude(uid__isnull=True)
+    # players = Player.objects.all().exclude(uid__isnull=True)
+    lists = PlayerList.objects.all()
     return render(request, 'players.html', locals())
 
 def gen_lineups(request):

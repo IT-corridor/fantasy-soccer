@@ -26,8 +26,8 @@ def import_player(request):
 
     return HttpResponse('Successfully imported ({})!'.format(Player.objects.all().count()))
 
-def import_fanduel():
-    path = settings.BASE_DIR + '/data/FanDuel-FIFA-2018-06-19-26464-players-list.csv'
+def import_fanduel(file_name='FanDuel-FIFA-2018-06-19-26464-players-list'):
+    path = settings.BASE_DIR + '/data/{}.csv'.format(file_name)
     fanduel_list = []
 
     with open(path) as csvfile:
@@ -40,11 +40,7 @@ def import_fanduel():
             name_list = ii.name.split(' ')
             if ((ii.name.strip(' GTD') in fi[1]) or (name_list[0] in fi[2] and name_list[-1] in fi[3])) and (ii.team == fi[4]):
                 ii.uid = fi[0]
+                ii.game_category = ','.join(set((ii.game_category or '').split(',')+[file_name]))
                 ii.save()
-                fi.append('yes')
-
-    for fi in fanduel_list:
-        if len(fi) < 6:
-            print fi
 
     return Player.objects.all().exclude(uid__isnull=True).count()

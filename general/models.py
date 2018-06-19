@@ -12,10 +12,17 @@ class Player(models.Model):
     value = models.FloatField()
     team = models.CharField(max_length=50)
     updated_at = models.DateField(auto_now=True)
-    game_category = models.IntegerField(default=0)
+    game_category = models.CharField(max_length=250, null=True, blank=True)
 
     class Meta:
         unique_together = ('name', 'team')
 
     def __str__(self):
         return self.uid or self.name
+
+
+class PlayerList(models.Model):
+    title = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title

@@ -6,8 +6,19 @@
     {% csrf_token %}
     <div class="clearfix"></div>
       <div class="col-md-6 pr-0 pl-4">
-        <h3 class="mb-4 mt-4">Players List ( {{ players.count }} )</h3>
-        <div style="overflow-y: scroll; max-height: calc(98vh - 150px);">
+        <h4 class="mb-4 mt-4">Choose File</h4>
+        <div class="float-left">
+          {% for ii in lists %}
+            <div class="form-check" style="font-size: 17px; height: 30px;">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="player_list" value="{{ ii.title }}">{{ ii.title }}
+              </label>
+            </div>        
+          {% endfor %}
+        </div>
+        <div class="clearfix"></div>
+        <h3 class="mb-4 mt-5">Players List</h3>
+        <div style="overflow-y: scroll; height: calc(98vh - 150px);">
         <table class="table table-striped table-hover table-responsive-md">
           <thead>
             <tr>
