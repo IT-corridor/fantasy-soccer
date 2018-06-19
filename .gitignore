@@ -8,3 +8,4 @@ static/media
 settings.py
 static/icons
 data/.~lock.*
+.csv
