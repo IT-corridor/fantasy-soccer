@@ -12,7 +12,7 @@
           {% for ii in lists %}
             <div class="float-left form-check" style="font-size: 17px; height: 30px;">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input rd-file" name="player_list" onclick="choose_csv()" value="{{ ii.title }}">{{ ii.title }}
+                <input type="radio" class="form-check-input rd-file" name="player_list" onclick="choose_csv()" value="{{ ii.title }}">{{ ii.title }} ( {{ ii.title|num_players }} )
               </label>
             </div>
             <div class="clearfix"></div>

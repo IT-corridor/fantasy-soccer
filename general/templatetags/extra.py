@@ -12,3 +12,6 @@ def num_lineups(player, lineups):
             num = num + 1
     return num
 
+@register.filter
+def num_players(title):
+    return Player.objects.filter(game_category__contains=title).count()
