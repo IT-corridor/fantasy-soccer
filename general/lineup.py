@@ -55,7 +55,7 @@ POSITION_LIMITS = [
 ROSTER_SIZE = 8
 
 
-def get_lineup(players, SALARY_CAP, MAX_POINT):
+def get_lineup(players, teams, SALARY_CAP, MAX_POINT):
     solver = pywraplp.Solver('FanDuel-FIFA-2018', pywraplp.Solver.CBC_MIXED_INTEGER_PROGRAMMING)
 
     variables = []
@@ -84,6 +84,12 @@ def get_lineup(players, SALARY_CAP, MAX_POINT):
             if position == player.position:
                 position_cap.SetCoefficient(variables[i], 1)
 
+    for team in teams:
+        team_cap = solver.Constraint(0, 4)
+        for i, player in enumerate(players):
+            if team == player.team:
+                team_cap.SetCoefficient(variables[i], 1)
+
     size_cap = solver.Constraint(ROSTER_SIZE, ROSTER_SIZE)
     for variable in variables:
         size_cap.SetCoefficient(variable, 1)
@@ -104,8 +110,10 @@ def calc_lineups(players, num_lineups):
     result = []
     SALARY_CAP = 60000
     MAX_POINT = 10000
+    teams = set([ii.team for ii in players])
+
     for i in range(num_lineups):
-        roster = get_lineup(players, SALARY_CAP, MAX_POINT)
+        roster = get_lineup(players, teams, SALARY_CAP, MAX_POINT)
         if not roster:
             break
         result.append(roster)
