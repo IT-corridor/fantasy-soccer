@@ -6,7 +6,7 @@
     {% csrf_token %}
     <div class="clearfix"></div>
       <div class="col-md-6 pr-0 pl-4 mb-5">
-        <h4 class="mb-4 mt-4">Choose File</h4>
+        <h4 class="mb-4 mt-4">Fanduel CSV <span class="badge badge-success btn-upload ml-3" style="cursor: pointer;font-size: 15px;padding: 5px 9px !important;">Upload</span></h4>
         <div class="float-left">
           {% for ii in lists %}
             <div class="form-check" style="font-size: 17px; height: 30px;">
@@ -19,6 +19,7 @@
         <div class="clearfix"></div>
         <h3 class="mb-4 mt-5">Players List</h3>
         <div style="overflow-y: scroll; height: calc(98vh - 150px);" id="div-players">
+          <span>Please select a fanduel csv</span>
         </div>
       </div>
 
