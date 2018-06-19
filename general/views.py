@@ -6,6 +6,8 @@ import mimetypes
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 from django.utils.encoding import smart_str
 from wsgiref.util import FileWrapper
@@ -14,10 +16,21 @@ from django.views.decorators.csrf import csrf_exempt
 
 from general.models import *
 from general.lineup import *
+from general.imports import *
 
 def players(request):
     lists = PlayerList.objects.all()
     return render(request, 'players.html', locals())
+
+@csrf_exempt
+def upload_csv(request):
+    myfile = request.FILES['csv']
+
+    fs = FileSystemStorage()
+    filename = fs.save(settings.BASE_DIR+'/data/'+myfile.name, myfile)
+    filename = import_fanduel(fs.url(filename))
+    PlayerList.objects.create(title=filename)
+    return HttpResponse(render_to_string('filename_.html', locals()))
 
 @csrf_exempt
 def get_players(request):

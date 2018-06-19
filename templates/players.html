@@ -7,16 +7,17 @@
     <div class="clearfix"></div>
       <div class="col-md-6 pr-0 pl-4 mb-5">
         <h4 class="mb-4 mt-4">Fanduel CSV <span class="badge badge-success btn-upload ml-3" style="cursor: pointer;font-size: 15px;padding: 5px 9px !important;">Upload</span></h4>
-        <div class="float-left">
+        <input id="inputfile" type="file" name="files[]" class="d-none" accept=".csv">
+        <div class="csv-list">
           {% for ii in lists %}
-            <div class="form-check" style="font-size: 17px; height: 30px;">
+            <div class="float-left form-check" style="font-size: 17px; height: 30px;">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input rd-file" name="player_list" value="{{ ii.title }}">{{ ii.title }}
+                <input type="radio" class="form-check-input rd-file" name="player_list" onclick="choose_csv()" value="{{ ii.title }}">{{ ii.title }}
               </label>
-            </div>        
+            </div>
+            <div class="clearfix"></div>
           {% endfor %}
         </div>
-        <div class="clearfix"></div>
         <h3 class="mb-4 mt-5">Players List</h3>
         <div style="overflow-y: scroll; height: calc(98vh - 150px);" id="div-players">
           <span>Please select a fanduel csv</span>
@@ -89,14 +90,26 @@
       $('#div-result').html('');
     });
 
-    $('.rd-file').change(function() {
-      var list = $('.rd-file:checked').val();
-
-      $.post( "/get-players", { list: list }, function( data ) {
-        $( "#div-players" ).html( data );
-      });
-
+    $('.btn-upload').click(function() {
+      $("#inputfile").click();
     })
+
+    $("#inputfile").change(function() {
+      var fd = new FormData();
+      var file = this.files;
+      fd.append("csv", file[0]);
+
+      jQuery.ajax({
+        type: 'POST',
+        url: '/upload-csv',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          $('.csv-list').append(data);
+        }
+      });
+    });    
   })
 
   function tr_click(obj) {
@@ -107,5 +120,13 @@
   function choose_all (obj) {
     $('input[type="checkbox"]').prop("checked", $(obj).prop('checked'));
   }
+
+  function choose_csv () {
+    var list = $('.rd-file:checked').val();
+
+    $.post( "/get-players", { list: list }, function( data ) {
+      $( "#div-players" ).html( data );
+    });
+  }  
 </script>  
 {% endblock %}
