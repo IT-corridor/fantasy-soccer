@@ -38,6 +38,13 @@ def get_players(request):
     players = Player.objects.filter(game_category__contains=file)
     return HttpResponse(render_to_string('player-list_.html', locals()))
 
+def get_num_lineups(player, lineups):
+    num = 0
+    for ii in lineups:
+        if ii.is_member(player):
+            num = num + 1
+    return num
+
 def gen_lineups(request):
     rosters = []
     ids = request.POST.getlist('ids')
@@ -48,6 +55,9 @@ def gen_lineups(request):
     total_num_lineups = get_total_num_lineups(players)
     avg_points = lineups[0].projected() if lineups else 0
 
+    players_ = [{ 'name': ii.name, 'team': ii.team, 'lineups': get_num_lineups(ii, lineups)} 
+                for ii in players]
+    players_ = sorted(players_, key=lambda k: k['lineups'], reverse=True)
     return HttpResponse(render_to_string('player-lineup.html', locals()))
 
 def export_lineups(request):
