@@ -10,14 +10,20 @@ from django.template.loader import render_to_string
 from django.utils.encoding import smart_str
 from wsgiref.util import FileWrapper
 from django.contrib.contenttypes.models import ContentType
+from django.views.decorators.csrf import csrf_exempt
 
 from general.models import *
 from general.lineup import *
 
 def players(request):
-    # players = Player.objects.all().exclude(uid__isnull=True)
     lists = PlayerList.objects.all()
     return render(request, 'players.html', locals())
+
+@csrf_exempt
+def get_players(request):
+    file = request.POST.get('list')
+    players = Player.objects.filter(game_category__contains=file)
+    return HttpResponse(render_to_string('player-list_.html', locals()))
 
 def gen_lineups(request):
     rosters = []
