@@ -21,6 +21,10 @@ class Roster:
     def is_member(self, player):
         return player in self.players
 
+    def get_num_teams(self):
+        teams = set([ii.team for ii in self.players])
+        return len(teams)
+
     def spent(self):
         return sum(map(lambda x: x.salary, self.players))
 
@@ -112,12 +116,16 @@ def calc_lineups(players, num_lineups):
     MAX_POINT = 10000
     teams = set([ii.team for ii in players])
 
-    for i in range(num_lineups):
+    while True:
         roster = get_lineup(players, teams, SALARY_CAP, MAX_POINT)
         if not roster:
             break
-        result.append(roster)
         MAX_POINT = roster.projected() - 0.001
+        if roster.get_num_teams() > 2:
+            result.append(roster)
+            if len(result) == num_lineups:
+                break
+                
     return result
 
 def ncr(n, r):
