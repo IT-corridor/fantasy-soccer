@@ -104,6 +104,7 @@
     $('.btn-remove').click(function() {
       $.post( "/remove-csv", {}, function( data ) {
         $( ".csv-list" ).html( data );
+        $('#div-players').html('<span>Please select a fanduel csv</span>');
       });
     })
 
