@@ -126,13 +126,19 @@
     });    
   })
 
-  function tr_click(obj) {
-    var checked = $(obj).find('input').prop("checked");
-    $(obj).find('input').prop("checked", !checked);
+  function pr_click(obj) {
+    var checked = $(obj).parent().find('input').prop("checked");
+    $(obj).parent().find('input').prop("checked", !checked);
   }
 
   function choose_all (obj) {
     $('input[type="checkbox"]').prop("checked", $(obj).prop('checked'));
+  }
+
+  function change_point (obj) {
+    var pid = $(obj).data('id'),
+        val = $(obj).val();
+    $.post( "/update-point", { pid: pid, val: val }, function( data ) {})
   }
 
   function choose_csv () {

@@ -10,6 +10,7 @@ class Player(models.Model):
     position = models.CharField(max_length=10)
     points = models.FloatField(default=0)
     value = models.FloatField(default=0)
+    fppg = models.FloatField(default=0)
     team = models.CharField(max_length=50)
     updated_at = models.DateField(auto_now=True)
     game_category = models.CharField(max_length=250, null=True, blank=True)

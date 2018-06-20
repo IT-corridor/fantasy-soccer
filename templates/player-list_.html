@@ -5,6 +5,7 @@
       <th>Name</th>
       <th>Position</th>
       <th>Salary</th>
+      <th>FPPG</th>
       <th>Value</th>
       <th>Points</th>
       <th>Team</th>
@@ -12,13 +13,16 @@
   </thead>
   <tbody>
     {% for ii in players %}
-      <tr onclick="tr_click(this)" style="cursor: pointer;">
+      <tr>
         <td><input type="checkbox" name="ids" checked="" value="{{ ii.id }}"></td>
-        <td>{{ ii.name }}</td>
+        <td style="cursor: pointer;" onclick="pr_click(this)">{{ ii.name }}</td>
         <td>{{ ii.position }}</td>
         <td>{{ ii.salary }}</td>
+        <td>{{ ii.fppg|floatformat:-1 }}</td>
         <td>{{ ii.value }}</td>
-        <td>{{ ii.points }}</td>
+        <td>
+          <input type="number" min="0" class="form-control" step="0.1" data-id="{{ ii.id }}" value="{{ ii.points }}" style="width: 80px;" onchange="change_point(this);">
+        </td>
         <td>{{ ii.team }}</td>
       </tr>
     {% endfor %}

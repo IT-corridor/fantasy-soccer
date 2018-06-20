@@ -44,6 +44,7 @@ def import_fanduel(path='media/root/Work/Steven/fantasy_soccer/data/FanDuel-FIFA
                              salary=row['Salary'],
                              position=POSITION_DICT[row['Position']],
                              team=row['Team'],
+                             fppg=row['FPPG'],
                              game_category=file_name)
             fanduel_list.append([player_, row['First Name'], row['Last Name']])
 
@@ -52,6 +53,7 @@ def import_fanduel(path='media/root/Work/Steven/fantasy_soccer/data/FanDuel-FIFA
             name_list = ii.name.split(' ')
             if ((ii.name.strip(' GTD') in fi[0].name) or (name_list[0] in fi[1] and name_list[-1] in fi[2])) and (ii.team == fi[0].team):
                 ii.uid = fi[0].uid
+                ii.fppg = fi[0].fppg
                 ii.game_category = ','.join(set((ii.game_category or '').split(',')+[file_name]))
                 ii.save()
                 fi[0].uid = ''

@@ -99,3 +99,10 @@ def remove_csv_():
             os.unlink(file_path)
         except Exception as e:
             print(e)
+
+@csrf_exempt
+def update_point(request):
+    pid = int(request.POST.get('pid'))
+    points = request.POST.get('val')
+    Player.objects.filter(id=pid).update(points=points)
+    return HttpResponse('')

@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^upload-csv', upload_csv, name="upload_csv"),
     url(r'^remove-csv', remove_csv, name="remove_csv"),
     url(r'^export_lineups', export_lineups, name="export_lineups"),
+    url(r'^update-point', update_point, name="update_point"),
 ]
