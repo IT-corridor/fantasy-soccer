@@ -35,7 +35,7 @@ def upload_csv(request):
 @csrf_exempt
 def get_players(request):
     file = request.POST.get('list')
-    players = Player.objects.filter(game_category__contains=file)
+    players = Player.objects.filter(game_category__contains=file).order_by('-points')
     return HttpResponse(render_to_string('player-list_.html', locals()))
 
 def get_num_lineups(player, lineups):
@@ -82,3 +82,20 @@ def export_lineups(request):
     response['Content-Length'] = os.path.getsize( path ) # not FileField instance
     response['Content-Disposition'] = 'attachment; filename=%s' % smart_str( os.path.basename( path ) ) # same here        
     return response
+
+@csrf_exempt
+def remove_csv(request):
+    remove_csv_()
+    return HttpResponse('')
+
+def remove_csv_():
+    PlayerList.objects.all().delete()
+    Player.objects.all().update(game_category='')
+
+    folder = settings.BASE_DIR + '/data/'
+    for the_file in os.listdir(folder):
+        file_path = os.path.join(folder, the_file)
+        try:
+            os.unlink(file_path)
+        except Exception as e:
+            print(e)

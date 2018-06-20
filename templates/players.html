@@ -6,7 +6,14 @@
     {% csrf_token %}
     <div class="clearfix"></div>
       <div class="col-md-6 pr-0 pl-4 mb-5">
-        <h4 class="mb-4 mt-4">Fanduel CSV <span class="badge badge-success btn-upload ml-3" style="cursor: pointer;font-size: 15px;padding: 5px 9px !important;">Upload</span></h4>
+        <h4 class="mb-4 mt-4">Fanduel CSV 
+          <span class="badge badge-success btn-upload ml-3" style="cursor: pointer;font-size: 15px;padding: 5px 9px !important;">
+            Upload
+          </span>
+          <span class="badge badge-danger btn-remove ml-2" style="cursor: pointer;font-size: 15px;padding: 5px 10px !important;">
+            Remove All
+          </span>
+        </h4>
         <input id="inputfile" type="file" name="files[]" class="d-none" accept=".csv">
         <div class="csv-list">
           {% for ii in lists %}
@@ -92,6 +99,12 @@
 
     $('.btn-upload').click(function() {
       $("#inputfile").click();
+    })
+
+    $('.btn-remove').click(function() {
+      $.post( "/remove-csv", {}, function( data ) {
+        $( ".csv-list" ).html( data );
+      });
     })
 
     $("#inputfile").change(function() {

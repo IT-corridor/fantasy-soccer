@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^gen-lineups', gen_lineups, name="gen_lineups"),
     url(r'^get-players', get_players, name="get_players"),
     url(r'^upload-csv', upload_csv, name="upload_csv"),
+    url(r'^remove-csv', remove_csv, name="remove_csv"),
     url(r'^export_lineups', export_lineups, name="export_lineups"),
 ]
